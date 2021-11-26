@@ -1,1 +1,1 @@
-# Project3
+# Shiny app on forest fires
