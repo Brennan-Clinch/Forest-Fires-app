@@ -9,4 +9,10 @@ Learning repository. [The link to the dataset information is here](https://archi
 
 To use this app, the following packages are required:
 
-`tidyverse`
+`tidyverse` - R packages for data science in data manipulation and visualization
+`shiny`- app framework
+`readr` - read in data
+`shinyWidgets`- additional functionality for Shiny
+`caret`- machine learning
+`DT`- additional functionality for Shiny
+`rattle`-visualizing tree model
