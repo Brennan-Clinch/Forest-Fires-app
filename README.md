@@ -16,3 +16,15 @@ To use this app, the following packages are required:
 `caret`- machine learning
 `DT`- additional functionality for Shiny
 `rattle`-visualizing tree model
+
+To install, I would run this code chunk:
+
+```r
+install.packages("tidyverse")
+install.packages("readr")
+install.packages("shiny")
+install.packages("shinyWidgets")
+install.packages("caret")
+install.packages("DT")
+install.packages("rattle")
+```
