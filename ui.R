@@ -11,7 +11,7 @@ library(readr)
 library(tidyverse)
 
 #Read in our data and save it
-forestfdata <- read.csv("./forestfires.csv")
+forestfdata <- read.csv("./Data/forestfires.csv")
 image <- paste0("forestfire.jpg")
 
 Datalink <- "https://archive.ics.uci.edu/ml/datasets/Forest+Fires"
