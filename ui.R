@@ -11,7 +11,7 @@ library(readr)
 library(tidyverse)
 
 #Read in our data and save it
-forestfdata <- read.csv("../forestfires.csv")
+forestfdata <- read.csv("./forestfires.csv")
 image <- paste0("forestfire.jpg")
 
 Datalink <- "https://archive.ics.uci.edu/ml/datasets/Forest+Fires"
@@ -292,8 +292,8 @@ shinyUI(navbarPage(
                     uiOutput("MulRegEx"),
                     br(),
                     "Note that you can also include higher order polynomial terms as well as",
-                    " interaction terms to the model as well which can improve it usually.",
-                    
+                    " interaction terms to the model as well which can improve it usually. This is one key benefit of Multiple Regression. The downside of Multiple Regression is that",
+                    " we cannot have non-linear response variables and we must also have a lot of assumptions met, such as normality.",
                     #Give an overview of regression trees
                     h4("Regression Trees"),
                     "A regression tree, also known as just tree, is an algorithm ",
