@@ -477,10 +477,10 @@ shinyUI(navbarPage(
                 # summaries.
                 mainPanel(
                     
-                    h3("Results from testing the models on the test data. Original model results can be found in rds files in Fitted Models folder"),
+                    h3("Results from testing the models on the test data."),
                     
                     dataTableOutput("testTableOutput"),
-                    # Show the coefficients of the Logistic Regression Model.
+                    # Show the coefficients of the Multiple Regression Model.
                     h3("Summary of Multiple Regression Model"),
                     dataTableOutput("MulRegSummary"),
                     br(),
