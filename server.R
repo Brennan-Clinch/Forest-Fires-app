@@ -290,11 +290,10 @@ shinyServer(function(input, output, session) {
         
         
         # Increment the progress bar, and update the detail text.
-        progress$inc(0.8, detail = "Evaluating Test Set Performance")
+        progress$inc(0.8, detail = "Evaluating the Test Set Performance")
         
         # Get test set predictions and then use them to test the models on the test set.
         MulRegPreds <- predict(MulRegModel, test,type = "raw")
-    
         treePreds <- predict(treeModel, test, type = "raw")
         randForPreds <- predict(rfModel, test, type = "raw")
         MulRegPredr <- postResample(MulRegPreds,test$area)
@@ -331,7 +330,7 @@ shinyServer(function(input, output, session) {
         })
        
         
-       # Save the fitted models (training) in a folder.
+       # Save the fitted models (training) in a folder to use for prediction tab.
         saveRDS(MulRegModel, "./Fitted Models/MulRegModel.rds")
         saveRDS(treeModel, "./Fitted Models/treeModel.rds")
         saveRDS(rfModel, "./Fitted Models/rfModel.rds")
@@ -387,7 +386,7 @@ shinyServer(function(input, output, session) {
                 numericInput(
                     inputId = paste0(variable, "Value"),
                     label = paste0("Input ", variable, " Value"),
-                    value = min((forestfdata[, variable]), na.rm=TRUE),
+                    value = median((forestfdata[, variable]), na.rm=TRUE),
                     step = 0.1
                 )
             })
@@ -411,7 +410,7 @@ shinyServer(function(input, output, session) {
                 numericInput(
                     inputId = paste0(variable, "Value"),
                     label = paste0("Input ", variable, " Value"),
-                    value = min((forestfdata[, variable]), na.rm=TRUE),
+                    value = median((forestfdata[, variable]), na.rm=TRUE),
                     step = 0.1
                 )
             })
@@ -431,21 +430,21 @@ shinyServer(function(input, output, session) {
         if (modelType == "MultReg"){
             
             # Get the names of the user inputs for the multiple regression model.
-            varsOfInterest <- unlist(lapply(input$MultRegVars, paste0, sep="Value"))
+            varsInput <- unlist(lapply(input$MultRegVars, paste0, sep="Value"))
             # Load in the logistic regression model.
             myModel <- readRDS("./Fitted Models/MulRegModel.rds")
             
         } else if (modelType == "tree"){
             
             # Get the names of the user inputs for the tree model.
-            varsOfInterest <- unlist(lapply(input$treeVars, paste0, sep="Value"))
+            varsInput <- unlist(lapply(input$treeVars, paste0, sep="Value"))
             # Load in the tree model.
             myModel <- readRDS("./Fitted Models/treeModel.rds")
             
         } else {
             
             # Get the names of the user inputs for the random forest model.
-            varsOfInterest <- unlist(lapply(input$randForVars, paste0, sep="Value"))
+            varsInput <- unlist(lapply(input$randForVars, paste0, sep="Value"))
             # Load in the random forest model.
             myModel <- readRDS("./Fitted Models/rfModel.rds")
             
@@ -455,7 +454,7 @@ shinyServer(function(input, output, session) {
         # access the variables by simply passing the vector of list elements to 
         # input.
         inputCopy <- c()
-        for (variable in varsOfInterest){
+        for (variable in varsInput){
             inputCopy <- c(inputCopy, input[[variable]])
         }
         
@@ -463,7 +462,7 @@ shinyServer(function(input, output, session) {
         inputCopy <- t(matrix(inputCopy))
         # Strip "Value" from the variable names to match the column names in 
         # forestfdata.
-        colnames(inputCopy) <- str_remove_all(varsOfInterest, pattern="Value")
+        colnames(inputCopy) <- str_remove_all(varsInput, pattern="Value")
         
         # Create a data.frame from the user inputs.
         userInputs <- as.data.frame(inputCopy)
