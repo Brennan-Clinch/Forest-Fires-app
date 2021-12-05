@@ -10,7 +10,7 @@ library(plotly)
 library(tidyverse)
 
 #Read in our data and save it
-forestfdata <- read.csv("../forestfires.csv")
+forestfdata <- read.csv("./forestfires.csv")
 
 # Set up the back-end.
 shinyServer(function(input, output, session) {
@@ -334,10 +334,7 @@ shinyServer(function(input, output, session) {
             data.frame(treePredr)
         })
         
-        # Save the fitted models (training) in a folder.
-        saveRDS(MulRegModel, "../Fitted Models/MulRegModel.rds")
-        saveRDS(treeModel, "../Fitted Models/treeModel.rds")
-        saveRDS(rfModel, "../Fitted Models/rfModel.rds")
+        
     
         
     })
