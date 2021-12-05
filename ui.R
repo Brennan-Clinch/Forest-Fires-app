@@ -293,7 +293,7 @@ shinyUI(navbarPage(
                     br(),
                     "Note that you can also include higher order polynomial terms as well as",
                     " interaction terms to the model as well which can improve it usually. This is one key benefit of Multiple Regression. The downside of Multiple Regression is that",
-                    " we cannot have non-linear response variables and we must also have a lot of assumptions met, such as normality.",
+                    " we cannot have non-linear response variables and we must also have a lot of assumptions met, such as normality.
                     #Give an overview of regression trees
                     h4("Regression Trees"),
                     "A regression tree, also known as just tree, is an algorithm ",
@@ -311,6 +311,9 @@ shinyUI(navbarPage(
                     " a regression tree.",
                     
                     br(),
+                    "The good part of Regression trees is that you can work with a lot of different types of variables since you don't need a lot of assumptions met like in Multiple Regression.",
+                     " Downsides of Regression Trees include having to usually do tree",
+                    " pruning which is to avoid overfitting the data but this can increase our bias.",
                     br(),
                     br(),
                     br(),
