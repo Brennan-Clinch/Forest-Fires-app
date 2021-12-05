@@ -34,3 +34,11 @@ install.packages("caret")
 install.packages("DT")
 install.packages("rattle")
 ```
+
+#Code to run this app
+
+Here is the code to run my app
+
+```r
+shiny::runGitHub("Brennan-Clinch/Project3",ref = "main")
+```
