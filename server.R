@@ -10,7 +10,7 @@ library(plotly)
 library(tidyverse)
 
 #Read in our data and save it
-forestfdata <- read.csv("./forestfires.csv")
+forestfdata <- read.csv("./Data/forestfires.csv")
 
 # Set up the back-end.
 shinyServer(function(input, output, session) {
@@ -288,6 +288,7 @@ shinyServer(function(input, output, session) {
             trControl=TrControl
         )
         
+        
         # Increment the progress bar, and update the detail text.
         progress$inc(0.8, detail = "Evaluating Test Set Performance")
         
@@ -330,9 +331,10 @@ shinyServer(function(input, output, session) {
         })
        
         
-        output$treetest <- renderDataTable({
-            data.frame(treePredr)
-        })
+       # Save the fitted models (training) in a folder.
+        saveRDS(MulRegModel, "../Fitted Models/MulRegModel.rds")
+        saveRDS(treeModel, "../Fitted Models/treeModel.rds")
+        saveRDS(rfModel, "../Fitted Models/rfModel.rds")
         
         
     
