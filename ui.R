@@ -293,7 +293,7 @@ shinyUI(navbarPage(
                     br(),
                     "Note that you can also include higher order polynomial terms as well as",
                     " interaction terms to the model as well which can improve it usually. This is one key benefit of Multiple Regression. The downside of Multiple Regression is that",
-                    " we cannot have non-linear response variables and we must also have a lot of assumptions met, such as normality.
+                    " we cannot have non-linear response variables and we must also have a lot of assumptions met, such as normality.",
                     #Give an overview of regression trees
                     h4("Regression Trees"),
                     "A regression tree, also known as just tree, is an algorithm ",
@@ -327,14 +327,8 @@ shinyUI(navbarPage(
                     "regression, their predictions are averaged.",
                     br(),
                     br(),
-                    "Only considering a subset of features at each split ",
-                    "prevents a handful of features from dominating the early ",
-                    "splits in each tree and makes each tree more independent ",
-                    "(hopefully). By aggregating the predictions of the ",
-                    "independent trees, we reduce the variance of the ",
-                    "predictions. Random forests are typically good out-of-the",
-                    "-box predictive models, but unfortunately lose the ",
-                    "interpretability that stand-alone trees have.",
+                    "Random Forests are good when we want to reduce overfitting in trees and want to improve our accuracy/RMSE and again allow for continuous and logical responses.",
+                    " However, Random Forests can also require a lot more computational power than regular decision trees and can also take a long time to train. Thankfully our model fitting tab allows for quick random forest computation time",
                     br(),
                     br(),
                     br()
