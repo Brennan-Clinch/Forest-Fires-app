@@ -40,8 +40,8 @@ shinyUI(navbarPage(
                 
                 img(
                     src = image, 
-                    height = '748px', 
-                    width = '663px'
+                    height = '558px', 
+                    width = '600px'
                 ),
                 
                 #add panel telling the purpose of the app
