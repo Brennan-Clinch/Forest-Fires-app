@@ -134,7 +134,7 @@ shinyUI(navbarPage(
             #Create sidebar for user inputs
             sidebarPanel(
                 #set the width
-                width = 5,
+                width = 8,
                 #Add header
                 h3("Interactive parameters"),
                 #Filter for months of interest
