@@ -10,7 +10,7 @@ library(plotly)
 library(tidyverse)
 
 #Read in our data and save it
-forestfdata <- read.csv("../forestfires.csv")
+forestfdata <- read.csv("../Data/forestfires.csv")
 
 # Set up the back-end.
 shinyServer(function(input, output, session) {
