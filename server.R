@@ -331,9 +331,9 @@ shinyServer(function(input, output, session) {
        
         
        # Save the fitted models (training) in a folder to use for prediction tab.
-        saveRDS(MulRegModel, "./Fitted Models/MulRegModel.rds")
-        saveRDS(treeModel, "./Fitted Models/treeModel.rds")
-        saveRDS(rfModel, "./Fitted Models/rfModel.rds")
+        saveRDS(MulRegModel, "./Models/MulRegModel.rds")
+        saveRDS(treeModel, "./Models/treeModel.rds")
+        saveRDS(rfModel, "./Models/rfModel.rds")
         
         
     
@@ -432,21 +432,21 @@ shinyServer(function(input, output, session) {
             # Get the names of the user inputs for the multiple regression model.
             varsInput <- unlist(lapply(input$MultRegVars, paste0, sep="Value"))
             # Load in the logistic regression model.
-            myModel <- readRDS("./Fitted Models/MulRegModel.rds")
+            myModel <- readRDS("./Models/MulRegModel.rds")
             
         } else if (modelType == "tree"){
             
             # Get the names of the user inputs for the tree model.
             varsInput <- unlist(lapply(input$treeVars, paste0, sep="Value"))
             # Load in the tree model.
-            myModel <- readRDS("./Fitted Models/treeModel.rds")
+            myModel <- readRDS("./Models/treeModel.rds")
             
         } else {
             
             # Get the names of the user inputs for the random forest model.
             varsInput <- unlist(lapply(input$randForVars, paste0, sep="Value"))
             # Load in the random forest model.
-            myModel <- readRDS("./Fitted Models/rfModel.rds")
+            myModel <- readRDS("./Models/rfModel.rds")
             
         }
         
