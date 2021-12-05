@@ -296,55 +296,18 @@ shinyServer(function(input, output, session) {
         treePreds <- predict(treeModel, test)
         randForPreds <- predict(rfModel, test)
         
-        
-        # Create the findMode function.
-        findMode <- function(x) {
-            # From https://www.tutorialspoint.com/r/r_mean_median_mode.htm
-            uniqueX <- unique(x)
-            uniqueX[which.max(tabulate(match(x, uniqueX)))]
-        }
+        #Get model results on test set
+        MulRegPredr <- postResample(MulRegPreds,test$area)
+        treePredr <- postResample(treePreds,test$area)
+        randForPredr <- postResample(randForPreds,test$area)
         
         
-        # Find the no-info rate.
-        noInfoRate <- mean(findMode(test$area) == test$area)
-        # Find the test set performances.
-        accVec <- c(
-            noInfoRate,
-            mean(MulRegPreds == test$area, na.rm=TRUE), 
-            mean(treePreds == test$area, na.rm=TRUE), 
-            mean(randForPreds == test$area, na.rm=TRUE)
-        )
-        
-        # Convert to a matrix and percentages.
-        accMatrix <- t(as.matrix(accVec)) * 100
-        # Add informative column names.
-        colnames(accMatrix) <- c(
-            "No Information Rate",
-            "Multiple Regression",
-            paste0("Tree (Cp = ", treeModel$bestTune$cp, ")"),
-            paste0("Random Forest (mtry = ", rfModel$bestTune$mtry, ")")
-        )
-    
-        # Convert the matrix to a dataframe.
-        accTable <- as.data.frame(accMatrix) %>%
-            mutate_all(
-                round, digits = 3
-            ) %>%
-            mutate_all(
-                paste0, sep="%"
-            )
-        
-        # Create the output for the accuracy table.
-        output$accTableOutput <- renderDataTable({
-            datatable(accTable)
-        })
-        
-        # Create an output for the logistic regression model rounding to 4 decimals.
+        # Create an output for the multiple regression model rounding to 4 decimals.
         output$MulRegSummary <- renderDataTable({
             round(as.data.frame(summary(MulRegModel)$coef), 4)
         })
         
-        # Create a nice tree diagram.
+        # Create a nice tree diagram with our regression tree model.
         output$treeSummary <- renderPlot({
             fancyRpartPlot(treeModel$finalModel)
         })
@@ -356,11 +319,13 @@ shinyServer(function(input, output, session) {
                 ggtitle("Most Important Features by Decrease in Gini Impurity")
         })
         
-        # Save the fitted models in a folder.
+        # Save the fitted models and test results in a folder.
         saveRDS(MulRegModel, "./Fitted Models/MulRegModel.rds")
         saveRDS(treeModel, "./Fitted Models/treeModel.rds")
         saveRDS(rfModel, "./Fitted Models/rfModel.rds")
-        
+        saveRDS(randForPredr, "./Fitted Models/randForPredr.rds")
+        saveRDS(treePredr, "./Fitted Models/treePredr.rds")
+        saveRDS(MulRegPredr, "./Fitted Models/MulRegPredr.rds")
     })
     
     
