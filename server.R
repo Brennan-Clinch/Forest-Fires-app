@@ -10,7 +10,7 @@ library(plotly)
 library(tidyverse)
 
 #Read in our data and save it
-forestfdata <- read.csv("./Data/forestfires.csv")
+forestfdata <- read.csv("../forestfires.csv")
 
 # Set up the back-end.
 shinyServer(function(input, output, session) {
@@ -291,23 +291,33 @@ shinyServer(function(input, output, session) {
         # Increment the progress bar, and update the detail text.
         progress$inc(0.8, detail = "Evaluating Test Set Performance")
         
-        # Get test set predictions.
-        MulRegPreds <- predict(MulRegModel, test)
-        treePreds <- predict(treeModel, test)
-        randForPreds <- predict(rfModel, test)
-        
-        #Get model results on test set
+        # Get test set predictions and then use them to test the models on the test set.
+        MulRegPreds <- predict(MulRegModel, test,type = "raw")
+    
+        treePreds <- predict(treeModel, test, type = "raw")
+        randForPreds <- predict(rfModel, test, type = "raw")
         MulRegPredr <- postResample(MulRegPreds,test$area)
         treePredr <- postResample(treePreds,test$area)
         randForPredr <- postResample(randForPreds,test$area)
         
+        MulRegtestr <- c(MulRegPredr,treePredr,randForPredr)
+        testMatrix <- as.matrix(MulRegtestr)
+        row.names(testMatrix) <- c("RMSE (Multiple Regression)","R Squared (Multiple Regression)", "MAE (Multiple Regression",
+                                   "RMSE (Regression Tree)", "R Squared (Regression Tree)", "MAE (Regression Tree)", 
+                                   "RMSE (Random Forest)", "R Squared (Random Forest)", "MAE (Random Forest)")
+       
+        output$testTableOutput <- renderDataTable({
+            datatable(testMatrix)
+        })
         
-        # Create an output for the multiple regression model rounding to 4 decimals.
+       
+        
+        # Create an output for the Multiple regression model rounding to 4 decimals.
         output$MulRegSummary <- renderDataTable({
             round(as.data.frame(summary(MulRegModel)$coef), 4)
         })
         
-        # Create a nice tree diagram with our regression tree model.
+        # Create a nice tree diagram.
         output$treeSummary <- renderPlot({
             fancyRpartPlot(treeModel$finalModel)
         })
@@ -316,16 +326,20 @@ shinyServer(function(input, output, session) {
         output$rfVarImpPlot <- renderPlot({
             ggplot(varImp(rfModel, type=2)) + 
                 geom_col(fill="blue") + 
-                ggtitle("Most Important Features by Decrease in Gini Impurity")
+                ggtitle("Most Important Features by the decrease in Gini Impurity")
+        })
+       
+        
+        output$treetest <- renderDataTable({
+            data.frame(treePredr)
         })
         
-        # Save the fitted models and test results in a folder.
-        saveRDS(MulRegModel, "./Fitted Models/MulRegModel.rds")
-        saveRDS(treeModel, "./Fitted Models/treeModel.rds")
-        saveRDS(rfModel, "./Fitted Models/rfModel.rds")
-        saveRDS(randForPredr, "./Fitted Models/randForPredr.rds")
-        saveRDS(treePredr, "./Fitted Models/treePredr.rds")
-        saveRDS(MulRegPredr, "./Fitted Models/MulRegPredr.rds")
+        # Save the fitted models (training) in a folder.
+        saveRDS(MulRegModel, "../Fitted Models/MulRegModel.rds")
+        saveRDS(treeModel, "../Fitted Models/treeModel.rds")
+        saveRDS(rfModel, "../Fitted Models/rfModel.rds")
+    
+        
     })
     
     
@@ -420,21 +434,21 @@ shinyServer(function(input, output, session) {
             # Get the names of the user inputs for the multiple regression model.
             varsOfInterest <- unlist(lapply(input$MultRegVars, paste0, sep="Value"))
             # Load in the logistic regression model.
-            myModel <- readRDS("./Fitted Models/MulRegModel.rds")
+            myModel <- readRDS("../Fitted Models/MulRegModel.rds")
             
         } else if (modelType == "tree"){
             
             # Get the names of the user inputs for the tree model.
             varsOfInterest <- unlist(lapply(input$treeVars, paste0, sep="Value"))
             # Load in the tree model.
-            myModel <- readRDS("./Fitted Models/treeModel.rds")
+            myModel <- readRDS("../Fitted Models/treeModel.rds")
             
         } else {
             
             # Get the names of the user inputs for the random forest model.
             varsOfInterest <- unlist(lapply(input$randForVars, paste0, sep="Value"))
             # Load in the random forest model.
-            myModel <- readRDS("./Fitted Models/rfModel.rds")
+            myModel <- readRDS("../Fitted Models/rfModel.rds")
             
         }
         
