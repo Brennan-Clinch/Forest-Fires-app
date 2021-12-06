@@ -35,9 +35,9 @@ install.packages("DT")
 install.packages("rattle")
 ```
 
-#Code to run this app
+# Code to run this app
 
-Here is the code to run my app
+Here is the code to run my app after installing all packages
 
 ```r
 shiny::runGitHub("Brennan-Clinch/Project3",ref = "main")
