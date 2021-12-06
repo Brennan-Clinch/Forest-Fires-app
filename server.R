@@ -70,7 +70,7 @@ shinyServer(function(input, output, session) {
                 geom_histogram(bins=bins, fill="orange", color="black") + 
                 # Change the y-axis label and a title.
                 scale_y_continuous("Frequency") + 
-                ggtitle(paste0("Frequency of forest fires by ", histVar))
+                ggtitle(paste0("Frequency of ", histVar))
         
         
         # Display the plot.
@@ -250,7 +250,7 @@ shinyServer(function(input, output, session) {
         )
     
         # Increment the progress bar, and update the detail text.
-        progress$inc(0.2, detail = "Multiple Regression")
+        progress$inc(0.2, detail = "Performing Multiple Regression")
         
         # Evaluate the multiple regression through CV.
         MulRegModel = train(
@@ -262,7 +262,7 @@ shinyServer(function(input, output, session) {
     )
         
         # Increment the progress bar, and update the detail text.
-        progress$inc(0.4, detail = "Regression Tree")
+        progress$inc(0.4, detail = "Performing a Regression Tree")
         
         # Let caret choose the best tree through CV.
         treeModel = train(
@@ -276,7 +276,7 @@ shinyServer(function(input, output, session) {
         )
         
         # Increment the progress bar, and update the detail text.
-        progress$inc(0.6, detail = "Random Forest")
+        progress$inc(0.6, detail = "Performing a Random Forest")
         
         # Let caret choose the best random forest through CV.
         rfModel = train(
@@ -290,7 +290,7 @@ shinyServer(function(input, output, session) {
         
         
         # Increment the progress bar, and update the detail text.
-        progress$inc(0.8, detail = "Evaluating the Test Set Performance")
+        progress$inc(0.8, detail = "Evaluating the Test Set")
         
         # Get test set predictions and then use them to test the models on the test set.
         MulRegPreds <- predict(MulRegModel, test,type = "raw")
@@ -341,16 +341,16 @@ shinyServer(function(input, output, session) {
     })
     
     
-    ###
+    
     # Modeling - Prediction
-    ###
+    
     
     output$MulRegPredInputs <- renderUI({
         
-        ###
-        # Create a UI that lets the user input values for the multiple regression 
+       
+        # Create a widget that lets the user input values for the multiple regression 
         # and get a prediction.
-        ###
+        
         
         # Get the variables to use for each model.
         MultRegVars <- input$MultRegVars
@@ -419,9 +419,9 @@ shinyServer(function(input, output, session) {
     
     observeEvent(input$predStart, {
         
-        ###
+        
         # Return predictions when the user wants them.
-        ###
+       
         
         # Retrieve the model to use for prediction.
         modelType <- input$modelType
